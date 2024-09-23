@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: murathanelcuman <murathanelcuman@studen    +#+  +:+       +#+        */
+/*   By: melcuman <melcuman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 15:07:13 by sebasari          #+#    #+#             */
-/*   Updated: 2024/09/21 22:03:55 by murathanelc      ###   ########.fr       */
+/*   Updated: 2024/09/23 15:09:09 by melcuman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ typedef struct	s_minishell
 int				check_if_empty(char *str);
 
 // initialize
-void			adjsut_all(char *input, t_parse **parse, t_fd *fd);
+void			adjsut_all(char *input);
 
 // adjust quotes
 int				ft_single_quotes_finised(char *input, int index);
@@ -83,7 +83,7 @@ t_list			*ft_basic_q(t_list *nodes_t, int	len);
 
 // tokenizations
 
-int				parse_init(char *input, t_parse **parse, t_fd *fd);
+int				parse_init(char *input);
 t_minishell		*ft_tokanazition(char **str, t_minishell *mini);
 void			ft_control_token(t_minishell *mini);
 //char		*ft_split_with_redirect(t_list *mini, t_list **head);
@@ -150,14 +150,13 @@ int			pipe_check(t_list *tmp_token, t_list *tmp_prev);
 
 //------execute------//
 
-// void		ft_execute_commands(t_minishell *mini);
-void		ft_execute_commands(t_parse *parse, t_file *file, t_fd **fd);
-// char		*ft_find_command_path(char *command);
-// void		ft_command(t_minishell *mini);
-// char		**ft_get_char(t_minishell *token);
+void		ft_execute_commands(t_minishell *mini);
+void		ft_execution_deneme(t_parse **parse, t_fd *fd);
+char		*ft_find_command_path(char *command);
+void		ft_command(t_minishell *mini);
+char		**ft_get_char(t_minishell *token);
 int			ft_builtin_or_not(char *str);
 void		ft_execute_builtins(char **commands);
-void		ft_execution(t_parse **parse, t_fd *fd);
 void		ft_execve_or_builtin(char **str);
 void		ft_check_which_command_execute(t_parse **parse, t_fd **fd);
 
@@ -182,7 +181,7 @@ bool		ft_check_option_n(char *str, int i);
 int			ft_check_option(char *str);
 void		ft_echo(char **str);
 void		ft_env(char	**input);
-void		ft_exit(t_minishell *mini);
+void		ft_exit(char **str);
 int			ft_check_envp_var(char *str);
 int			ft_check_equal_sign(char *str);
 void		ft_display_env(void);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: murathanelcuman <murathanelcuman@studen    +#+  +:+       +#+        */
+/*   By: melcuman <melcuman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 19:01:06 by murathanelc       #+#    #+#             */
-/*   Updated: 2024/09/21 15:32:10 by murathanelc      ###   ########.fr       */
+/*   Updated: 2024/09/23 14:29:48 by melcuman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	ft_cd(char **str)
 	if (total_len < 2)
 		directory = getenv("HOME");
 	else
-		directory = argv[1];
+		directory = str[1];
 	printf("Success\n");
 	if (chdir(directory) != 0)
 		printf("cd: no such file or directory");

@@ -33,7 +33,7 @@ void	ft_control_token(t_minishell *mini)
 	}
 }
 
-int	parse_init(char *input, t_parse **parse, t_fd *fd)
+int	parse_init(char *input)
 {
 	char			**str;
 	t_minishell		*mini;
@@ -52,7 +52,7 @@ int	parse_init(char *input, t_parse **parse, t_fd *fd)
 		return (1);
 	mini->token_num = ft_lstprint_t(mini);
 	mini = parse(0, 1, mini);
-	ft_execution(parse, fd);
+	ft_execution_deneme(mini->nodes_p, mini->fd);
 	return (0);
 }
 

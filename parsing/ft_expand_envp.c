@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_expand_envp.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: murathanelcuman <murathanelcuman@studen    +#+  +:+       +#+        */
+/*   By: melcuman <melcuman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 00:07:24 by murathanelc       #+#    #+#             */
-/*   Updated: 2024/09/21 14:22:48 by murathanelc      ###   ########.fr       */
+/*   Updated: 2024/09/23 15:18:42 by melcuman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,12 @@ char	*ft_envp_var(char *envp, int i)
 // check if '?$' is entered
 char	*ft_check_envp_exit_stat(char *str, int *i)
 {
-	if (str[i] == '?')
+	if (str[*i] == '?')
 	{
 		(*i)++;
-		return (ft_itoa(g_state.exit_status));
+		return (ft_itoa(g_minishell.exit_status));
 	}
-	else if (str[i] == '\0')
+	else if (str[*i] == '\0')
 	{
 		(*i)++;
 		return (ft_strdup("$"));
@@ -81,7 +81,7 @@ char	*ft_handle_envp_var(char **envp, char *str, int *i)
 		p = 0;
 		while (str[k] == envp[j][p])
 		{
-			if (ft_isalnum(str[k + 1]) == 0 && envp[j][a + 1] == '=')
+			if (ft_isalnum(str[k + 1]) == 0 && envp[j][k + 1] == '=')
 			{
 				*i = k + 1;
 				return (ft_envp_var(envp[j + 1], p + 1));
@@ -99,16 +99,16 @@ char	*ft_check_string(char *str, int *i)
 	char	**envp;
 	char	*new_str;
 
-	envp = g_state.envp;
+	envp = g_minishell.envp;
 	if (str[*i] == '$')
 	{
 		(*i)++;
-		return (ft_handle_envp_var(envp, i));
+		return (ft_handle_envp_var(envp, str, i));
 	}
 	if (str[*i] == '"')
-		return (ft_double_quotes_check());
+		return (ft_itoa(ft_double_quotes_check(str, *i)));
 	if (str[*i] == '\'')
-		return (ft_single_quotes_finised());
+		return (ft_itoa(ft_single_quotes_finised(str, *i)));
 	else
 	{
 		new_str = ft_convert_char_to_string(str[*i]);
@@ -138,9 +138,9 @@ void	ft_search_envp_vars(char **str)
 			free(check_str);
 			free(new_str);
 		}
-		ft_modify_string(&str[i], temp);
+		ft_modify_string(&str[i], &temp);
 		i++;
-		if (str[i - 1] == "<<" && str[i] != NULL)
+		if (ft_strncmp(str[i - 1], ">>", ft_strlen(">>")) == 0 && str[i] != NULL)
 			i++;
 	}
 }

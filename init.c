@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: murathanelcuman <murathanelcuman@studen    +#+  +:+       +#+        */
+/*   By: melcuman <melcuman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 10:58:15 by sebasari          #+#    #+#             */
-/*   Updated: 2024/09/21 19:40:58 by murathanelc      ###   ########.fr       */
+/*   Updated: 2024/09/23 15:06:31 by melcuman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	adjsut_all(char *input, t_parse **parse, t_fd *fd)
+void	adjsut_all(char *input)
 {
-	parse_init(input, parse, fd);
+	parse_init(input);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: murathanelcuman <murathanelcuman@studen    +#+  +:+       +#+        */
+/*   By: melcuman <melcuman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 12:27:07 by sebasari          #+#    #+#             */
-/*   Updated: 2024/09/21 19:40:40 by murathanelc      ###   ########.fr       */
+/*   Updated: 2024/09/23 15:06:12 by melcuman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,6 @@ int	check_if_empty(char *str)
 int main(int argc, char **argv, char **envp)
 {
 	char	*input;
-	t_parse	**parse;
-	t_fd	*fd;
 
 	(void)argc;
 	(void)argv;
@@ -43,7 +41,7 @@ int main(int argc, char **argv, char **envp)
 		input = readline("minishell$ ");
 		if (check_if_empty(input) == 1)
 			continue ;
-		adjsut_all(input, parse, fd);
+		adjsut_all(input);
 		add_history(input);
 	}
 	return 0;

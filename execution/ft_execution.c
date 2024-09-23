@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_execution.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: murathanelcuman <murathanelcuman@studen    +#+  +:+       +#+        */
+/*   By: melcuman <melcuman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 15:39:55 by murathanelc       #+#    #+#             */
-/*   Updated: 2024/09/21 19:27:56 by murathanelc      ###   ########.fr       */
+/*   Updated: 2024/09/23 15:00:55 by melcuman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 extern t_minishell	g_minishell;
 
 // handler for execution in pipes
-void	ft_execute_commands(t_parse *parse, t_file *file, t_fd **fd)
+void	ft_execute_commands_deneme(t_parse *parse, t_file *file, t_fd **fd)
 {
 	if (!file)
 	{
-		ft_execve_or_builtin();
+		ft_execve_or_builtin(parse[0].args);
 		dup2(parse->in_file, STDIN_FILENO);
 	}
 	while (file != NULL)
@@ -43,7 +43,7 @@ void	ft_execve_or_builtin(char **str)
 	int	pid;
 	int	type;
 
-	type = ft_builtin_or_not(str);
+	type = ft_builtin_or_not(*str);
 	if (type != 0) // also control number of token I guess, ask göktuğ
 	{
 		ft_execute_builtins(str);
@@ -53,13 +53,10 @@ void	ft_execve_or_builtin(char **str)
 	pid = fork();
 	if (pid == 0) // child process
 	{
-		if (type == 0)
-			ft_execve();
-		else
-		{
-			ft_execute_builtins(str);
-			exit(1);
-		}
+		// if (type == 0)
+		// 	ft_execve();
+		ft_execute_builtins(str);
+		exit(1);
 	}
 }
 
@@ -73,10 +70,11 @@ void	ft_check_which_command_execute(t_parse **parse, t_fd **fd)
 	if (parse[1])
 	{
 		// set pipe flag to 1
-		ft_handle_pipe(parse, fd);
+		// ft_handle_pipe(parse, fd);
+		printf("sjsjsjjs\n");
 	}
 	else
-		ft_execute_commands(*parse, (*parse)->file, fd);
+		ft_execute_commands_deneme(*parse, (*parse)->file, fd);
 	while (waitpid(0, &g_minishell.exit_status, 0) > 0)
 		continue ;
 	if (type == 0)
@@ -86,11 +84,11 @@ void	ft_check_which_command_execute(t_parse **parse, t_fd **fd)
 		else
 			g_minishell.exit_status = 130; // represent the ctrl + c
 	}
-	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, &ft_ctrl_c());
+	// signal(SIGQUIT, SIG_IGN);
+	// signal(SIGINT, &ft_ctrl_c());
 }
 
-void	ft_execution(t_parse **parse, t_fd *fd)
+void	ft_execution_deneme(t_parse **parse, t_fd *fd)
 {
 	ft_check_which_command_execute(parse, &fd);
 }

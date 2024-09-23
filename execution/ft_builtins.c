@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_builtins.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: murathanelcuman <murathanelcuman@studen    +#+  +:+       +#+        */
+/*   By: melcuman <melcuman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 15:19:50 by murathanelc       #+#    #+#             */
-/*   Updated: 2024/09/21 15:54:08 by murathanelc      ###   ########.fr       */
+/*   Updated: 2024/09/23 14:30:50 by melcuman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,11 @@ void	ft_execute_builtins(char **commands)
 {
 	int	type;
 
-	type = ft_builtin(commands[0]);
+	type = ft_builtin_or_not(commands[0]);
 	if (type == 1)
 		ft_cd(commands);
 	else if (type == 2)
-		ft_pwd(commands);
+		ft_pwd(*commands);
 	else if (type == 3)
 		ft_echo(commands);
 	else if (type == 4)

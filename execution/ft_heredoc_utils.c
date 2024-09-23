@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_heredoc_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: murathanelcuman <murathanelcuman@studen    +#+  +:+       +#+        */
+/*   By: melcuman <melcuman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 22:06:14 by murathanelc       #+#    #+#             */
-/*   Updated: 2024/09/20 22:29:17 by murathanelc      ###   ########.fr       */
+/*   Updated: 2024/09/23 15:23:00 by melcuman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	ft_check_next_node(t_parse *temp, t_file **file)
 	else if (temp->args[0]) // if it is an command
 	{
 		(*file) = (*file)->next;
-		ft_command(temp->args);
+		ft_execve_or_builtin(temp->args);
 	}
 }
 
@@ -46,7 +46,7 @@ char	*ft_add_char_to_string(char *str, char c)
 	char	*new_str;
 	char	*str_c;
 
-	str_c = ft_convert_char_to_string(char c);
+	str_c = ft_convert_char_to_string(c);
 	new_str = ft_strjoin(str, str_c);
 	str = ft_strdup(new_str);
 	free(new_str);
@@ -68,7 +68,7 @@ char	*ft_search_and_expand_env(char **env, char *str)
 		if (str[i] == '$')
 		{
 			i++;
-			var = ft_handle_env_var(env, str, i);
+			var = ft_handle_envp_var(env, str, &i);
 			temp = ft_strjoin(temp, var);
 			free(var);
 		}

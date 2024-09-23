@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_heredoc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: murathanelcuman <murathanelcuman@studen    +#+  +:+       +#+        */
+/*   By: melcuman <melcuman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 22:31:01 by murathanelc       #+#    #+#             */
-/*   Updated: 2024/09/21 22:05:13 by murathanelc      ###   ########.fr       */
+/*   Updated: 2024/09/23 14:40:32 by melcuman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	ft_write_heredoc(char *str, int pipe_fd)
 
 	len = ft_strlen(str);
 	write(pipe_fd, str, len);
-	write(pipe_fd, '\n', 1);
+	write(pipe_fd, "\n", 1);
 }
 
 // get heredoc data and process it
@@ -27,7 +27,7 @@ void	ft_process_heredoc_data(char **envp, char *str, int pipe_fd, t_file **file)
 {
 	while (1)
 	{
-		str = readline('> ');
+		str = readline("> ");
 		if (str == 0)
 		{
 			print_error((*file)->after, ": Delimeter is not found\n", 0);
@@ -36,7 +36,7 @@ void	ft_process_heredoc_data(char **envp, char *str, int pipe_fd, t_file **file)
 		}
 		if (ft_strncmp(str, (*file)->after, ft_strlen(str)) == 0)
 			break ;
-		str = ft_search_and_expand_env(env, str);
+		str = ft_search_and_expand_env(envp, str);
 		if ((*file)->type != HERE_DOC || (*file)->after == NULL)
 			ft_write_heredoc(str, pipe_fd);
 		free(str);
@@ -48,7 +48,7 @@ void	ft_heredoc_parent_process(int pipe_fd[2], t_parse *parse, t_file **file, t_
 {
 	close(pipe_fd[1]);
 	// ignore any signals
-	while (waitpid(0, &g_minishell.envp, 0) > 0)
+	while (waitpid(0, &g_minishell.exit_status, 0) > 0)
 		continue ;
 	if (ft_is_exited(g_minishell.exit_status))
 		g_minishell.exit_status = ft_get_exit_status(g_minishell.exit_status);
@@ -74,24 +74,24 @@ void	ft_heredoc_parent_process(int pipe_fd[2], t_parse *parse, t_file **file, t_
 // heredoc
 void	ft_heredoc(t_parse *parse, t_file **file, t_fd **fd)
 {
-	int		fd[2];
+	int		p_fd[2];
 	int		pid;
 	char	**envp;
 	char	*str;
 
 	str = NULL;
-	envp = g_state.envp;
+	envp = g_minishell.envp;
 	dup2((*fd)->in, STDIN_FILENO);
 	dup2((*fd)->out, STDOUT_FILENO);
 	pid = fork();
-	signal(SIGINT, &ft_heredoc_signal);
+	// signal(SIGINT, &ft_heredoc_signal);
 	if (pid == 0)
 	{
-		close(fd[0]);
-		ft_process_heredoc_data(envp, str, fd[1], file);
-		close(fd[1]);
+		close(p_fd[0]);
+		ft_process_heredoc_data(envp, str, p_fd[1], file);
+		close(p_fd[1]);
 		exit(1);
 	}
 	else
-		ft_heredoc_parent_process(fd, parse, file, fd);
+		ft_heredoc_parent_process(p_fd, parse, file, fd);
 }
